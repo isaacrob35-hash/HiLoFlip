@@ -2,7 +2,7 @@
 //  HiLoFlipApp.swift
 //  HiLoFlip
 //
-//  Created by Isaac Luke on 9/9/26.
+//  Created by Isaac Luke on 9/4/26.
 //
 
 import SwiftUI
@@ -11,7 +11,7 @@ import SwiftUI
 struct HiLoFlipApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            GameView()
         }
     }
 }
