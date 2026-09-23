@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TokenView: View {
-    let isHi: Bool
+    let side: TokenSide
 
     var body: some View {
         ZStack {
@@ -23,7 +23,7 @@ struct TokenView: View {
     }
 
     private var label: some View {
-        Text(isHi ? "HI" : "LO")
+        Text(side.label)
             .font(.largeTitle)
             .bold()
             .foregroundStyle(.white)
@@ -31,5 +31,5 @@ struct TokenView: View {
 }
 
 #Preview {
-    TokenView(isHi: true)
+    TokenView(side: .hi)
 }

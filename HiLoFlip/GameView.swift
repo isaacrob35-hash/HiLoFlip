@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GameView: View {
     @State private var cards = [Int]()
-    @State private var isHi = true
+    @State private var side = TokenSide.hi
 
     private let columns = [GridItem(.adaptive(minimum: 100))]
 
@@ -29,7 +29,7 @@ struct GameView: View {
 
     private var topRow: some View {
         HStack {
-            TokenView(isHi: isHi)
+            TokenView(side: side)
             Button("Shuffle") {
                 deal()
             }
@@ -49,7 +49,7 @@ struct GameView: View {
     }
 
     private func deal() {
-        isHi = Bool.random()
+        side = Bool.random() ? .hi : .lo
         let deck = Array(1...100).shuffled()
         cards = Array(deck.prefix(7))
     }

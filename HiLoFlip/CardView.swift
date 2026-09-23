@@ -9,19 +9,18 @@ import SwiftUI
 
 struct CardView: View {
     let number: Int
-    @State private var isFaceUp = true
+    @State private var face = CardFace.faceUp
 
     var body: some View {
         ZStack {
-            if isFaceUp {
-                cardFront
-            } else {
-                cardBack
+            switch face {
+                case .faceUp: cardFront
+                case .faceDown: cardBack
             }
         }
         .frame(width: 100, height: 155)
         .onTapGesture {
-            isFaceUp.toggle()
+            face = face.flipped
         }
     }
 
@@ -114,27 +113,22 @@ struct CardView: View {
     }
 
     private var cornerIcon: some View {
+        Group {
+            if let special = symbol(for: number) {
+                iconCircle(for: special)
+            }
+        }
+    }
+
+    private func iconCircle(for special: SpecialSymbol) -> some View {
         ZStack {
             Circle()
                 .fill(.white)
-            Image(systemName: iconName)
+            Image(systemName: special.sfSymbolName)
                 .font(.caption)
                 .foregroundStyle(.black)
         }
         .frame(width: 24, height: 24)
-        .opacity(showIcon ? 1 : 0)
-    }
-
-    private var iconName: String {
-        switch number % 10 {
-        case 1: return "circle.slash"
-        case 2: return "doc.on.doc.fill"
-        default: return "star.fill"
-        }
-    }
-
-    private var showIcon: Bool {
-        number % 10 <= 2
     }
 }
 
