@@ -130,11 +130,11 @@ struct CardView: View {
         }
         .frame(width: 24, height: 24)
     }
-}
 
-func colorForIndex(_ index: Int) -> Color {
-    let hue = Double(index) / 100.0
-    return Color(hue: hue, saturation: 0.8, brightness: 1)
+    private func colorForIndex(_ index: Int) -> Color {
+        let hue = Double(index) / 100.0
+        return Color(hue: hue, saturation: 0.8, brightness: 1)
+    }
 }
 
 #Preview {
