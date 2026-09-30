@@ -8,50 +8,41 @@
 import SwiftUI
 
 struct GameView: View {
-    @State private var cards = [Int]()
-    @State private var side = TokenSide.hi
+    var game = HiLoFlipCardGame(playerNames: ["Player 1", "Player 2"])
 
-    private let columns = [GridItem(.adaptive(minimum: 100))]
+    private let columns = [GridItem(.adaptive(minimum: 80))]
 
     var body: some View {
         ZStack {
             Color(red: 0, green: 119/255, blue: 0)
                 .ignoresSafeArea()
             VStack {
-                topRow
-                cardGrid
+                hand(for: 0)
+                centerRow
+                hand(for: 1)
             }
-        }
-        .onAppear {
-            deal()
         }
     }
 
-    private var topRow: some View {
+    private var centerRow: some View {
         HStack {
-            TokenView(side: side)
+            TokenView(side: game.isTokenHi ? .hi : .lo)
             Button("Shuffle") {
-                deal()
+                game.resetGame()
             }
             .buttonStyle(.borderedProminent)
         }
         .padding()
     }
 
-    private var cardGrid: some View {
+    private func hand(for index: Int) -> some View {
         ScrollView {
             LazyVGrid(columns: columns) {
-                ForEach(cards, id: \.self) { number in
-                    CardView(number: number)
+                ForEach(game.hand(for: game.players[index]), id: \.value) { card in
+                    CardView(card: card)
                 }
             }
         }
-    }
-
-    private func deal() {
-        side = Bool.random() ? .hi : .lo
-        let deck = Array(1...100).shuffled()
-        cards = Array(deck.prefix(7))
     }
 }
 

@@ -8,26 +8,23 @@
 import SwiftUI
 
 struct CardView: View {
-    let number: Int
-    @State private var face = CardFace.faceUp
+    var card: HiLoGame.Card
 
     var body: some View {
         ZStack {
-            switch face {
-                case .faceUp: cardFront
-                case .faceDown: cardBack
+            if card.isFaceUp {
+                cardFront
+            } else {
+                cardBack
             }
         }
-        .frame(width: 100, height: 155)
-        .onTapGesture {
-            face = face.flipped
-        }
+        .frame(width: 80, height: 124)
     }
 
     private var cardFront: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 12)
-                .fill(colorForIndex(number))
+                .fill(colorForIndex(card.value))
             corners
             numberCircle
         }
@@ -45,13 +42,13 @@ struct CardView: View {
         ZStack {
             Circle()
                 .fill(.black)
-            Text("\(number)")
-                .font(.title)
+            Text("\(card.value)")
+                .font(.title2)
                 .bold()
-                .underline(number % 10 == 6 || number % 10 == 9)
+                .underline(card.value % 10 == 6 || card.value % 10 == 9)
                 .foregroundStyle(.white)
         }
-        .frame(width: 62, height: 62)
+        .frame(width: 50, height: 50)
     }
 
     private var backLabels: some View {
@@ -80,13 +77,13 @@ struct CardView: View {
     private func labelCircle(text: String) -> some View {
         ZStack {
             Circle()
-                .strokeBorder(.white, lineWidth: 3)
+                .strokeBorder(.white, lineWidth: 2)
             Text(text)
-                .font(.title2)
+                .font(.title3)
                 .bold()
                 .foregroundStyle(.white)
         }
-        .frame(width: 55, height: 55)
+        .frame(width: 42, height: 42)
     }
 
     private var corners: some View {
@@ -114,7 +111,7 @@ struct CardView: View {
 
     private var cornerIcon: some View {
         Group {
-            if let special = symbol(for: number) {
+            if let special = symbol(for: card.value) {
                 iconCircle(for: special)
             }
         }
@@ -138,5 +135,5 @@ struct CardView: View {
 }
 
 #Preview {
-    CardView(number: 10)
+    CardView(card: HiLoGame.Card(value: 10))
 }
