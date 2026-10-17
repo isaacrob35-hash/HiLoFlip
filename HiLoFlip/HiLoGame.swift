@@ -48,6 +48,16 @@ struct HiLoGame {
         dealCards()
     }
 
+    mutating func flip(_ card: Card) {
+        for playerIndex in players.indices {
+            for cardIndex in players[playerIndex].hand.indices {
+                if players[playerIndex].hand[cardIndex].value == card.value {
+                    players[playerIndex].hand[cardIndex].isFaceUp.toggle()
+                }
+            }
+        }
+    }
+
     struct Card {
         let value: Int
         fileprivate(set) var isFaceUp = true

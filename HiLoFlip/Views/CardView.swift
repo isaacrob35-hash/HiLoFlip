@@ -11,14 +11,9 @@ struct CardView: View {
     var card: HiLoGame.Card
 
     var body: some View {
-        ZStack {
-            if card.isFaceUp {
-                cardFront
-            } else {
-                cardBack
-            }
-        }
-        .frame(width: 80, height: 124)
+        cardFront
+            .modifier(Cardify(isFaceUp: card.isFaceUp))
+            .frame(width: 80, height: 124)
     }
 
     private var cardFront: some View {
@@ -27,14 +22,6 @@ struct CardView: View {
                 .fill(colorForIndex(card.value))
             corners
             numberCircle
-        }
-    }
-
-    private var cardBack: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 12)
-                .fill(.black)
-            backLabels
         }
     }
 
@@ -49,41 +36,6 @@ struct CardView: View {
                 .foregroundStyle(.white)
         }
         .frame(width: 50, height: 50)
-    }
-
-    private var backLabels: some View {
-        VStack {
-            topLabel
-            Spacer()
-            bottomLabel
-        }
-        .padding(8)
-    }
-
-    private var topLabel: some View {
-        HStack {
-            labelCircle(text: "HI")
-            Spacer()
-        }
-    }
-
-    private var bottomLabel: some View {
-        HStack {
-            Spacer()
-            labelCircle(text: "LO")
-        }
-    }
-
-    private func labelCircle(text: String) -> some View {
-        ZStack {
-            Circle()
-                .strokeBorder(.white, lineWidth: 2)
-            Text(text)
-                .font(.title3)
-                .bold()
-                .foregroundStyle(.white)
-        }
-        .frame(width: 42, height: 42)
     }
 
     private var corners: some View {

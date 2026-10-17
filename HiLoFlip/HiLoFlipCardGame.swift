@@ -30,4 +30,8 @@ class HiLoFlipCardGame {
     func resetGame() {
         model.resetGame()
     }
+
+    func flip(_ card: HiLoGame.Card) {
+        model.flip(card)
+    }
 }
