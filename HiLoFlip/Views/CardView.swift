@@ -14,6 +14,7 @@ struct CardView: View {
         cardFront
             .modifier(Cardify(isFaceUp: card.isFaceUp))
             .frame(width: 80, height: 124)
+            .shadow(color: .black.opacity(0.3), radius: 3, x: 1, y: 3)
     }
 
     private var cardFront: some View {
@@ -21,43 +22,51 @@ struct CardView: View {
             RoundedRectangle(cornerRadius: 12)
                 .fill(colorForIndex(card.value))
             corners
-            numberCircle
+            numberBadge(size: 46, fontSize: 24)
         }
     }
 
-    private var numberCircle: some View {
+    private func numberBadge(size: CGFloat, fontSize: CGFloat) -> some View {
         ZStack {
             Circle()
                 .fill(.black)
             Text("\(card.value)")
-                .font(.title2)
-                .bold()
+                .font(.system(size: fontSize, weight: .black, design: .rounded))
                 .underline(card.value % 10 == 6 || card.value % 10 == 9)
                 .foregroundStyle(.white)
+                .lineLimit(1)
+                .minimumScaleFactor(0.6)
+                .padding(size * 0.12)
         }
-        .frame(width: 50, height: 50)
+        .frame(width: size, height: size)
     }
 
     private var corners: some View {
         VStack {
-            topCorner
+            HStack {
+                topCorner
+                Spacer()
+            }
             Spacer()
-            bottomCorner
+            HStack {
+                Spacer()
+                bottomCorner
+            }
         }
-        .padding(6)
+        .padding(4)
     }
 
     private var topCorner: some View {
-        HStack {
+        VStack(spacing: 2) {
+            numberBadge(size: 20, fontSize: 10)
             cornerIcon
-            Spacer()
         }
     }
 
     private var bottomCorner: some View {
-        HStack {
-            Spacer()
+        VStack(spacing: 2) {
             cornerIcon
+            numberBadge(size: 20, fontSize: 10)
                 .rotationEffect(.degrees(180))
         }
     }
@@ -69,9 +78,9 @@ struct CardView: View {
                     Circle()
                         .fill(.white)
                     symbolShape
-                        .padding(5)
+                        .padding(3)
                 }
-                .frame(width: 24, height: 24)
+                .frame(width: 15, height: 15)
             }
         }
     }
@@ -96,8 +105,8 @@ struct CardView: View {
 #Preview {
     HStack {
         CardView(card: HiLoGame.Card(value: 10))
-        CardView(card: HiLoGame.Card(value: 41))
-        CardView(card: HiLoGame.Card(value: 52))
-        CardView(card: HiLoGame.Card(value: 23))
+        CardView(card: HiLoGame.Card(value: 51))
+        CardView(card: HiLoGame.Card(value: 42))
+        CardView(card: HiLoGame.Card(value: 100))
     }
 }
